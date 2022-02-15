@@ -1,26 +1,29 @@
 import { Negociacao } from "../models/negociacao.js";
 import { Negociacoes } from "../models/negociacoes.js";
+import { NegociacoesView } from "../views/negociacoes-view.js";
 
 export class negociacaoController{
     private imputData: HTMLInputElement;
     private imputQuantidade: HTMLInputElement;
     private imputValor:HTMLInputElement;
     private negociacoes = new Negociacoes();
+    private negociacoesview = new NegociacoesView('#negociacoesView');
 
     constructor(){
         this.imputData = document.querySelector('#data');
         this.imputQuantidade = document.querySelector('#quantidade');
         this.imputValor = document.querySelector('#valor');
-
+        this.negociacoesview.update(this.negociacoes);
     }
     adiciona(): void{
-      const negociacao = this.crianegociação();
+      const negociacao = this.crianegociacao();
         this.negociacoes.adiciona(negociacao);
         console.log(this.negociacoes.lista());
+        this.negociacoesview.update(this.negociacoes);
         this.limparFormulario();
 
     }
-    crianegociação(): Negociacao{
+    crianegociacao(): Negociacao{
         const exp= /-/g;
         const date = new Date( this.imputData.value.replace(exp, ','));
         const quantidade = parseInt(this.imputQuantidade.value);
